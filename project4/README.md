@@ -7,10 +7,10 @@ As shown in the image, all the functions in the program get executed together at
 
 In this project, we will implement a lock table module using a given test code `unittest_lock_table`. In threaded program, a lock is necessary to ensure the atomicity of the function. This means, during the parallel execution, a thread must wait for another thread to finish using a function. After the current thread finished using the function, it will alert the next waiting thread so that the next thread will be able to use the function. In other words, we are **preventing from multiple thread using a same function at the same time**. `Mutex` is used as the lock in this kind of situation.
 
-## 1. Analyzing Test Code [`unittest_lock_table`](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/unittest/unittest_lock_table.cpp)
-From the [main](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/unittest/unittest_lock_table.cpp#L128) function, The program first initialize the 2d `account` array, holding `table_id` and `key` pair. Few arrays of threads for scanning and transfer function also initialized. First, [`init_lock_table`](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/unittest/unittest_lock_table.cpp#L143) function is called to initialize hash table and mutex `lock_table_latch`. Then, both thread arrays for transferring and scanning is initialized. 
+## 1. Analyzing Test Code [`unittest_lock_table`](https://github.com/jpog99/2020_ITE2038/blob/master/project4/unittest/unittest_lock_table.cpp)
+From the [main](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/unittest/unittest_lock_table.cpp#L128) function, The program first initialize the 2d `account` array, holding `table_id` and `key` pair. Few arrays of threads for scanning and transfer function also initialized. First, [`init_lock_table`](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/unittest/unittest_lock_table.cpp#L143) function is called to initialize hash table and mutex `lock_table_latch`. Then, both thread arrays for transferring and scanning is initialized. 
 
-During this instance, these multiple threads will execute their corresponding functions at the same time. Main utility for this program is transferring money value from one random <table_id,key> pair to another random pair by decrementing the value of former and incrementing the latter pair at random money value not more than 100 (refer [line 18](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/unittest/unittest_lock_table.cpp#L18) ). After 1,000,000 times of transferring and scanning, the threads then get joined to the main thread before terminating the program. If the procedure is successful, the sum of the total balances is unchanged. 
+During this instance, these multiple threads will execute their corresponding functions at the same time. Main utility for this program is transferring money value from one random <table_id,key> pair to another random pair by decrementing the value of former and incrementing the latter pair at random money value not more than 100 (refer [line 18](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/unittest/unittest_lock_table.cpp#L18) ). After 1,000,000 times of transferring and scanning, the threads then get joined to the main thread before terminating the program. If the procedure is successful, the sum of the total balances is unchanged. 
 
 ## 2. Initializing Struct for `lock` and `hash_table_entry`
 
@@ -43,7 +43,7 @@ typedef struct pointer{
 But, to achieve such implementation that uses unordered_map for easier element access, we want the `<table_id,key> pair` as the key value of map and `prev/head pointers` as the value of map. Recall that we want a lock list that correspond to the `<table_id,key> pair`. Unordered Map does not contain a hash function for a pair key. We need to explicitly provide the hash function that can hash a pair.
 This hash function will provide us the hash value of given pair.
 
-(*from [`lock_table.h` line 19](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/include/lock_table.h#L19)*)
+(*from [`lock_table.h` line 19](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/include/lock_table.h#L19)*)
 ```cpp
 struct hash_pair { 
     template <class T1, class T2> 
@@ -67,7 +67,7 @@ unordered_map< pair<int,int> , pointer , hash_pair> hash_table_entry;
 
 ![image](https://github.com/jpog99/2020_ITE2038/blob/master/project4/image/3.PNG)
 
-## 3. Lock Table APIs [`lock_table.cpp`](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp)
+## 3. Lock Table APIs [`lock_table.cpp`](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp)
 
 ### 1. `int init_lock_table(void)`
 
@@ -78,7 +78,7 @@ int init_lock_table()
 	return SUCCESS;
 }
 ```
-This function will initialize any structures necessary for implementing lock module such as hash table entry and lock table latch. We already initialized the hash table entry as a global variable (*refer [line 14](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L14)*) as it is used by all APIs.
+This function will initialize any structures necessary for implementing lock module such as hash table entry and lock table latch. We already initialized the hash table entry as a global variable (*refer [line 14](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L14)*) as it is used by all APIs.
 
 * Why there is no error checking during initializing mutex?
 
@@ -88,7 +88,7 @@ Using PTHREAD_MUTEX_INITIALIZER, error checking is not necessary. This is becaus
 
 This function will create a new `*lock_t` object and appends it to the lock list corresponding to the `<table_id,key>` pair that is received from the function argument.
 
-From [line 36](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L36), using one of the function from unordered_map container `.find()`, we find the pointer that points to the map key that matches the argument, we assign a variable `iter` which will store the hash table entry. Using auto, we can ignore the type specification for this variable and let the program itself assign it for us. 
+From [line 36](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L36), using one of the function from unordered_map container `.find()`, we find the pointer that points to the map key that matches the argument, we assign a variable `iter` which will store the hash table entry. Using auto, we can ignore the type specification for this variable and let the program itself assign it for us. 
 
 Then, the function will append to the lock list based on a few different cases such as below.
 
@@ -117,7 +117,7 @@ If the hash table entry is not available (due to map haven't store all hash tabl
 
 ```
 
-Similar to previous case, but this time only adding lock into the lock list. From now on, the `sentinel_pointer` is already initialized locally under the case where hash table entry is found (*refer [line 48](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L48)*). Because this lock doesn't have any predecessor, we don't have to put this lock to sleep. 
+Similar to previous case, but this time only adding lock into the lock list. From now on, the `sentinel_pointer` is already initialized locally under the case where hash table entry is found (*refer [line 48](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L48)*). Because this lock doesn't have any predecessor, we don't have to put this lock to sleep. 
 
 *Visualization:*   
 ![image](https://github.com/jpog99/2020_ITE2038/blob/master/project4/image/5.PNG)
@@ -161,11 +161,11 @@ For case 3 and 4, where the new lock have predecessor, we need to put the new lo
 				pthread_cond_wait(&lock->cond, &lock_table_latch);
 ```
 
-Finally, after the new lock is added, we [unlock the mutex](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L76) of this function so that the next thread can utilize it. Then, return the address of the newly created lock.
+Finally, after the new lock is added, we [unlock the mutex](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L76) of this function so that the next thread can utilize it. Then, return the address of the newly created lock.
 
 ### 3. `int lock_release(lock_t* lock_obj)`
 
-Same as previous function, we must [lock this function](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L84) so that only one thread can access this function at a time.
+Same as previous function, we must [lock this function](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L84) so that only one thread can access this function at a time.
 
 In this function, we want to remove the `lock_obj` that given in function argument from the lock list. To find which lock list we want to remove from, check the `sentinel_pointer` of the given `lock_obj` so that we have the hash table entry where the lock list is. 
 Now that we know the lock list that contains `lock_obj`, we should consider several cases before deallocate the lock.
@@ -207,7 +207,7 @@ This case, the `lock_obj` does not have any successor. So, we don't have to send
 	}
 ```
 
-If the `lock_obj` has a successor, we change the `head` pointer to the successor, and now the successor's parent will become null pointer. After that, `lock_obj` will [send the signal](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L103) to wake up the successor.
+If the `lock_obj` has a successor, we change the `head` pointer to the successor, and now the successor's parent will become null pointer. After that, `lock_obj` will [send the signal](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L103) to wake up the successor.
 
 ![image](https://github.com/jpog99/2020_ITE2038/blob/master/project4/image/10.PNG)
 
@@ -218,7 +218,7 @@ Finally, free the `lock_obj` , unlock the mutex, and return status code.
 
 After we implementing the APIs for out lock module, we can test if the module is successful or not by checking the output after running the test code. 
 
-Based on the given test code [`unittest_lock_table.cpp`](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/unittest/unittest_lock_table.cpp), we can see that the program **8 threads** to run transfer function, and **1 thread** to run scan function (*refer [line 9](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/unittest/unittest_lock_table.cpp#L9) and [line 10](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/unittest/unittest_lock_table.cpp#L10)*). Every time `transfer_thread_func` is completed, `"Transfer thread is done.\n"` is printed. Every time `scan_thread_func` is completed, `"Scan thread is done.\n"` is printed.
+Based on the given test code [`unittest_lock_table.cpp`](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/unittest/unittest_lock_table.cpp), we can see that the program **8 threads** to run transfer function, and **1 thread** to run scan function (*refer [line 9](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/unittest/unittest_lock_table.cpp#L9) and [line 10](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/unittest/unittest_lock_table.cpp#L10)*). Every time `transfer_thread_func` is completed, `"Transfer thread is done.\n"` is printed. Every time `scan_thread_func` is completed, `"Scan thread is done.\n"` is printed.
 
 * Expected result
 
