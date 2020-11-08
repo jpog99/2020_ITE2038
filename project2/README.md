@@ -28,10 +28,10 @@ Insertion in B+ Tree follows a few steps.
 
 **Example**
 
-![image](uploads/6a552d633769c7b81b4a3368e8ae187c/image.png) *Assuming the degree of tree is 3, we will insert a new input 26.*
-![image](uploads/ad476d9008f7bdeacfd7677658191716/image.png) *Now the leaf node violates the balancing policy and the node is splitted by half.*
-![image](uploads/a5e7872fbbcde3e356a2e18cea4f4569/image.png) *Middle value is copied to internal node and again violating the balancing policy.*
-![image](uploads/2507321cfb7279e43a0c83b04dfcb3f3/image.png) *Repeat the operation until the tree is balanced.*
+![image](https://github.com/jpog99/2020_ITE2038/blob/master/project2/image/2.PNG) *Assuming the degree of tree is 3, we will insert a new input 26.*
+![image](https://github.com/jpog99/2020_ITE2038/blob/master/project2/image/3.PNG) *Now the leaf node violates the balancing policy and the node is splitted by half.*
+![image](https://github.com/jpog99/2020_ITE2038/blob/master/project2/image/4.PNG) *Middle value is copied to internal node and again violating the balancing policy.*
+![image](https://github.com/jpog99/2020_ITE2038/blob/master/project2/image/5.PNG) *Repeat the operation until the tree is balanced.*
 
 Now we will look at how the insertion operation is executed in `bpt.c` using function `node * insert()`. This function takes in 3 parameters and assign new `record*` and `node*`. This function also handles 4 different cases of how the insertion occurs.
 
