@@ -2,7 +2,7 @@
 ## 1. Introduction to B+ Tree
 B+ Tree is a tree-type data structure that provide a very optimized operations of insertion, deletion and find. This tree uses a key record pair to store the data where key decides where the value is located in the tree and the record itself holds the data the user working on (In this project, our records hold integers as data). An example of a B+ Tree is as below:
 
-![image](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/wikis/uploads/ff62f1a221e1a6a3c15b295bc72beb8b/image.png) 
+![image of bpt](https://github.com/jpog99/2020_ITE2038/blob/master/project2/image/1.PNG) 
 
 Root node: Node at the top of the tree
 
