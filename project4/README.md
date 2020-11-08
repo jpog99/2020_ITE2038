@@ -92,7 +92,7 @@ From [line 36](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff
 
 Then, the function will append to the lock list based on a few different cases such as below.
 
-* [Case 1: Hash table entry for <table_id,key> pair not found](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L39). 
+* [Case 1: Hash table entry for <table_id,key> pair not found](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L39). 
 
 ```cpp
 	if(iter == hash_table_entry.end()){
@@ -107,7 +107,7 @@ If the hash table entry is not available (due to map haven't store all hash tabl
 *Visualization:*   
 ![image](https://github.com/jpog99/2020_ITE2038/blob/master/project4/image/4.PNG)
 
-* [Case 2: Hash table entry found, but no lock list](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L57)
+* [Case 2: Hash table entry found, but no lock list](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L57)
 
 ```cpp
 		if(iter->second.head == nullptr){
@@ -122,7 +122,7 @@ Similar to previous case, but this time only adding lock into the lock list. Fro
 *Visualization:*   
 ![image](https://github.com/jpog99/2020_ITE2038/blob/master/project4/image/5.PNG)
 
-* [Case 3: The lock list only have 1 lock, which is the head of list](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L57)
+* [Case 3: The lock list only have 1 lock, which is the head of list](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L57)
 
 ```cpp
 			if(iter->second.head->next == nullptr){
@@ -137,7 +137,7 @@ This time we want to change the `tail` pointer to the newly created lock. So, `h
 
 ![image](https://github.com/jpog99/2020_ITE2038/blob/master/project4/image/6.PNG)
 
-* [Case 4: Hash table entry has multiple locks in lock list](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L63)
+* [Case 4: Hash table entry has multiple locks in lock list](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L63)
 
 ```cpp
 			else{
@@ -170,7 +170,7 @@ Same as previous function, we must [lock this function](https://github.com/jpog9
 In this function, we want to remove the `lock_obj` that given in function argument from the lock list. To find which lock list we want to remove from, check the `sentinel_pointer` of the given `lock_obj` so that we have the hash table entry where the lock list is. 
 Now that we know the lock list that contains `lock_obj`, we should consider several cases before deallocate the lock.
 
-* [Case 1: FAILURE CASE](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L88)
+* [Case 1: FAILURE CASE](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L88)
 
 ```cpp
 	if(lock_obj != iter->second.head)
@@ -181,7 +181,7 @@ In this case, the program is trying to deallocate a lock that still have a prede
 
 ![image](https://github.com/jpog99/2020_ITE2038/blob/master/project4/image/8.PNG)
 
-* [Case 2: `lock_obj` has no successor](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L92)
+* [Case 2: `lock_obj` has no successor](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L92)
 
 ```cpp
 	if(lock_obj->next == nullptr){
@@ -195,7 +195,7 @@ This case, the `lock_obj` does not have any successor. So, we don't have to send
 ![image](https://github.com/jpog99/2020_ITE2038/blob/master/project4/image/9.PNG)
 
 
- * [Case 3: `lock_obj` has a successor](https://hconnect.hanyang.ac.kr/2020_ite2038_11800/2020_ite2038_2019007901/-/blob/master/project4/src/lock_table.cpp#L98)
+ * [Case 3: `lock_obj` has a successor](https://github.com/jpog99/2020_ITE2038/blob/e2519e582cd16cbe200ff09c7209545f08976b2f/project4/src/lock_table.cpp#L98)
 
 ```cpp
 	if(lock_obj->next != nullptr){
