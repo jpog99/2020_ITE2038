@@ -1,7 +1,7 @@
 #include "dbapi.h"
 using namespace std;
 
-pthread_mutex_t lock_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t lock_mutex;
 pthread_mutex_t trx_mutex = PTHREAD_MUTEX_INITIALIZER;
 list<trx_t> trx_list;
 unordered_map<string, lock_t*> lock_table;

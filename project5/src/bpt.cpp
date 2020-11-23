@@ -198,7 +198,7 @@ int update(int tid, int64_t key, char* value, int trx_id) {
        return FAILURE;
        }
     else
-        strcpy(value,leaf->page.node_page.records[i].value);
+        strcpy(leaf->page.node_page.records[i].value, value);
     leaf->is_pinned = 0;
     lock_release(lock);
     return SUCCESS;

@@ -12,6 +12,7 @@ int main( int argc, char ** argv ) {
     //table_id_list tid_list[MAX_TABLE_COUNT];
     char value[VALUE_SIZE];
     int flag;
+    init_lock_table();
     int trx_id = trx_begin();
 
     init_db(BUFFER_SIZE);
