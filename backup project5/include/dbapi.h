@@ -1,11 +1,11 @@
 #ifndef DBAPI_H
 #define DBAPI_H
 
-#include "file.hpp"
-#include "bpt.hpp"
-#include "buffer_manager.hpp"
-#include "disk_manager.hpp"
-#include "lock_manager.hpp"
+#include "file.h"
+#include "bpt.h"
+#include "buffer_manager.h"
+#include "disk_manager.h"
+#include "lock_manager.h"
 
 int init_db(int buf_num);
 int open_table(const char* pathname);

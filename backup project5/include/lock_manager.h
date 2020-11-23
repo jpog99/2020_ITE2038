@@ -1,6 +1,6 @@
 #pragma once
 
-#include "dbapi.hpp"
+#include "dbapi.h"
 
 //LOCK MANAGER APIs
 
@@ -17,7 +17,7 @@ int init_lock_table(void);
 lock_t* lock_acquire(int table_id, int64_t key, int trx_id, int lock_mode);
 
 //deadlock detection function (in test)
-//string check_deadlock(trx_t *trx1, trx_t *trx2) {
+std::string find_deadlock(trx_t *trx1, trx_t *trx2);
 
 //remove lock from lock table
 int lock_release(lock_t* lock_obj);

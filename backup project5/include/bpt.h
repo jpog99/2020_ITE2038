@@ -6,7 +6,7 @@
 // #define WINDOWS
 #include <string.h>
 #include <stdint.h>
-#include "file.hpp"
+#include "file.h"
 #ifdef WINDOWS
 #define bool char
 #define false 0

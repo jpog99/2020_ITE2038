@@ -1,10 +1,14 @@
-#include "dbapi.hpp"
+#include "dbapi.h"
 using namespace std;
 
+pthread_mutex_t lock_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t trx_mutex = PTHREAD_MUTEX_INITIALIZER;
+list<trx_t> trx_list;
+unordered_map<string, lock_t*> lock_table;
 
 int trx_begin(void){
     trx_t trx;
-    trx_mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_t trx_mutex = PTHREAD_MUTEX_INITIALIZER;
     int max = 1;
     trx.trx_id = __sync_fetch_and_add(&max, 1);
     trx.state = "IDLE";
@@ -35,6 +39,29 @@ int trx_commit(int trx_id){
     pthread_mutex_unlock(&trx_mutex);
 
     return trx_id;
+}
+
+//ausba dlm test
+//testing deadlock detection function
+string find_deadlock(trx_t* trx1, trx_t* trx2) {
+
+    trx_t* curr_trx = trx2;
+    lock_t lock;
+    list<lock_t>::iterator it;
+    //for (it = curr_trx->lock_list.begin(); it != curr_trx->lock_list.end(); ++it){
+    //	if(it == trx1->lock_list.begin()) break;
+    //}
+  
+    while (curr_trx->state== "WAITING" && curr_trx != trx1) {
+        //lock = *it;
+        curr_trx = lock.trx;
+    }
+
+    if (curr_trx == trx1) {
+        return "DEADLOCK";
+    } else {
+        return "SAFELOCK";
+    }
 }
 
 int init_lock_table(void){

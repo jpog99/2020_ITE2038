@@ -52,5 +52,4 @@ library:
 	g++ -shared -Wl,-soname,libbpt.so -o $(LIBS)libbpt.so $(OBJS_FOR_LIB)
 
 static_library:
-	mkdir -p $(LIBS)
 	ar cr $(LIBS)libbpt.a $(OBJS_FOR_LIB)

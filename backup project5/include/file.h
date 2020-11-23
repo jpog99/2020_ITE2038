@@ -12,7 +12,6 @@
 #include <string>
 #include <algorithm>
 #include <list>
-using namespace std;
 
 //page specifications
 #define PAGE_SIZE 4096
@@ -137,17 +136,17 @@ typedef struct frame_t{
 	pagenum_t pnum;
 	int is_dirty;
 	int is_pinned;
-	string lru_next;
-	string lru_prev;
+	std::string lru_next;
+	std::string lru_prev;
 	int in_use;
 }frame_t;
 
 typedef struct buffer_pool_t{
-	unordered_map<string,frame_t> frames;
+	std::unordered_map<std::string,frame_t> frames;
 	int size;
 	int used_frame_cnt;
-	string mru_frame;
-	string lru_frame;
+	std::string mru_frame;
+	std::string lru_frame;
 }buffer_pool_t;
 
 typedef struct table_id_list{
@@ -168,8 +167,8 @@ struct lock_t {
 
 struct trx_t {
     int trx_id;
-    string state;
-    list<lock_t*> lock_list;
+    std::string state;
+    std::list<lock_t*> lock_list;
 };
 
 
@@ -187,14 +186,14 @@ struct trx_t {
  * default value.
  */
 //page_t main_header;
-char filename[MAX_FILENAME_LENGTH];
-int tid;
-buffer_pool_t buf_pool;
-int buf_exist;
-table_id_list tid_list[MAX_TABLE_COUNT];
-list<trx_t> trx_list;
-int trx_id;
-unordered_map<string, lock_t*> lock_table;
+extern char filename[MAX_FILENAME_LENGTH];
+extern int tid;
+extern buffer_pool_t buf_pool;
+extern int buf_exist;
+extern table_id_list tid_list[MAX_TABLE_COUNT];
+extern std::list<trx_t> trx_list;
+//extern int trx_id;
+extern std::unordered_map<std::string, lock_t*> lock_table;
 
-pthread_mutex_t trx_mutex ;
-pthread_mutex_t lock_mutex;
+extern pthread_mutex_t trx_mutex ;
+extern pthread_mutex_t lock_mutex;

@@ -1,7 +1,9 @@
 //#include "file.hpp"
-#include "dbapi.hpp"
+#include "dbapi.h"
 //#include "buffer_manager.hpp"
 using namespace std;
+
+table_id_list tid_list[MAX_TABLE_COUNT];
 
 int init_db(int buf_num){
     if(buf_exist == 1){
@@ -117,14 +119,14 @@ int db_find(int tid, int64_t key, char* ret_val, int trx_id){
 }
 
 int db_update(int table_id, int64_t key, char* values, int trx_id){
-    if(tid<=0){
+    if(table_id<=0){
     	printf("No table currently opened!\n");
     	return FAILURE;
     }
     int i;
     for(i=0 ; i<MAX_TABLE_COUNT ; i++){
-    	if(tid_list[i].table_id == tid){
-    	   return update(tid, key, values, trx_id);break;
+    	if(tid_list[i].table_id == table_id){
+    	   return update(table_id, key, values, trx_id);break;
     	}
     }
     

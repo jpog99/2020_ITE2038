@@ -1,5 +1,8 @@
-#include "dbapi.hpp"
+#include "dbapi.h"
 using namespace std;
+
+buffer_pool_t buf_pool;
+int buf_exist;
 
 int buf_get_tid(const char* pathname){
     int tid = open(pathname, O_CREAT | O_NOFOLLOW | O_RDWR | O_SYNC, 0666);; 

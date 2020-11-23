@@ -1,4 +1,4 @@
-#include "dbapi.hpp"
+#include "dbapi.h"
 //#include "lock_manager.hpp"
 // MAIN
 
@@ -7,9 +7,12 @@ int main( int argc, char ** argv ) {
 
     int64_t key;
     char instruction;
+    char filename[MAX_FILENAME_LENGTH];
+    int tid;
+    //table_id_list tid_list[MAX_TABLE_COUNT];
     char value[VALUE_SIZE];
     int flag;
-    trx_id = trx_begin();
+    int trx_id = trx_begin();
 
     init_db(BUFFER_SIZE);
     printf("> ");
