@@ -15,3 +15,7 @@ Database Management System (2020 Fall Semester)
 ## Project 4
 * [Lock Module Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project4)
 * [Wiki](https://github.com/jpog99/2020_ITE2038/blob/master/project4/README.md) 
+
+## Project 5
+* [Concurrenct Control Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project5)
+* [Wiki](https://github.com/jpog99/2020_ITE2038/tree/master/project5/README.md)
