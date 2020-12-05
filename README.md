@@ -17,5 +17,5 @@ Database Management System (2020 Fall Semester)
 * [Wiki](https://github.com/jpog99/2020_ITE2038/blob/master/project4/README.md) 
 
 ## Project 5
-* [Concurrenct Control Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project5)
+* [Concurrency Control Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project5)
 * [Wiki](https://github.com/jpog99/2020_ITE2038/tree/master/project5/README.md)
