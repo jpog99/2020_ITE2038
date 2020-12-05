@@ -59,6 +59,7 @@ string buf_add_page(int tid, pagenum_t pnum){
     
     //insert new page into buffer pool
     buf_pool.frames.insert(make_pair(frame_idx, frame));
+    flush_log();
     return frame_idx;   	
 }
 

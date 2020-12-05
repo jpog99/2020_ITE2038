@@ -5,7 +5,7 @@ using namespace std;
 
 table_id_list tid_list[MAX_TABLE_COUNT];
 
-int init_db(int buf_num){
+int init_db(int buf_num, int flag, int log_num, const char* log_path, const char* logmsg_path){
     if(buf_exist == 1){
     	printf("Buffer already exist!\n");
     	return FAILURE;
@@ -25,7 +25,7 @@ int init_db(int buf_num){
     for(int i=0 ; i<10 ; i++)
     	tid_list[i].table_id = 0;
     	
-    return SUCCESS;
+    return recover(flag, log_num, log_path, logmsg_path);
     
 }
 

@@ -218,6 +218,7 @@ extern volatile int64_t last_LSN;
 extern std::vector<log_t*>log_buf;
 extern volatile int flushed_idx;
 extern volatile int log_fd;
+extern FILE* logmsgFile;
 
 extern pthread_mutex_t trx_mutex ;
 extern pthread_mutex_t lock_mutex;

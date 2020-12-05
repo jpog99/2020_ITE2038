@@ -17,6 +17,7 @@ frame_t* buf_alloc_page(int tid, frame_t* buf_header){
         buf_header->page.header_page.number_of_pages++;
         //file_write_page(new_page_pnum, new_page);
         new_page->is_pinned = 0;
+        flush_log();
     }
     frame_t* temp_page;
     //file_read_page(pnum, temp_page);

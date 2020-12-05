@@ -5,6 +5,7 @@ vector<log_t*>log_buf;
 volatile int flushed_idx;
 unordered_set<int> loser;
 volatile int log_fd;
+FILE* logmsgFile;
 volatile int64_t last_LSN = 0;
 
 int64_t create_log(int trx_id , int log_type){
@@ -48,8 +49,9 @@ int64_t create_log(int trx_id , int log_type, int tid, int pnum, int idx, char* 
     return log->LSN;
 }
 
-int recover(char* log_path){
+int recover(int flag, int log_num, const char* log_path, const char* log_msgpath){
     log_fd = open(log_path, O_RDWR | O_SYNC | O_CREAT | O_APPEND, 0666);
+    logmsgFile = fopen(log_msgpath,"w");
 	
     if (log_fd < 0) return FAILURE;
     
@@ -120,14 +122,21 @@ int recover(char* log_path){
         }
         
 	free(log);
-	return 0;
+	return SUCCESS;
 }
 
 void print_log(){
 	for (auto log : log_buf) {
-	   	printf("LSN %lu [%d] Transaction id %d/n" , log->LSN, log->log_type, log->trx_id);
+		if(log->log_type == BEGIN) 
+   		    fprintf(logmsgFile,"LSN %lu [BEGIN] Transaction id %d\n" , log->LSN, log->trx_id);
+   		if(log->log_type == COMMIT) 
+   		    fprintf(logmsgFile,"LSN %lu [COMMIT] Transaction id %d\n" , log->LSN, log->trx_id);
+   		if(log->log_type == ROLLBACK) 
+   		    fprintf(logmsgFile,"LSN %lu [ROLLBACK] Transaction id %d\n" , log->LSN, log->trx_id);
+   		if(log->log_type == COMPENSATE) 
+   		    fprintf(logmsgFile,"LSN %lu [CLR] next undo lsn %lu\n" , log->LSN, log->prev_LSN);
 		if (log->log_type == UPDATE) {
-			printf("OLD : %s, NEW : %s\n" , log->old_image, log->new_image);
+			fprintf(logmsgFile,"LSN %lu [UPDATE] Transaction id %d redo(undo) apply\n" , log->LSN, log->trx_id);
 		}
 	}
 }

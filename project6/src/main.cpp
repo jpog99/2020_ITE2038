@@ -15,7 +15,7 @@ int main( int argc, char ** argv ) {
     init_lock_table();
     int trx_id = trx_begin();
 
-    init_db(BUFFER_SIZE);
+    init_db(BUFFER_SIZE, 0, 0, "logfile.data", "logmsg.txt");
     printf("> ");
     while (scanf("%c", &instruction) != EOF) {
         switch (instruction) {
@@ -62,6 +62,7 @@ int main( int argc, char ** argv ) {
             while (getchar() != (int)'\n');
             trx_commit(trx_id);
             shutdown_db();
+            print_log();
             return EXIT_SUCCESS;
             break;
         default:

@@ -8,7 +8,7 @@
 #include "lock_manager.h"
 #include "log_manager.h"
 
-int init_db(int buf_num);
+int init_db(int buf_num, int flag, int log_num, const char* log_path, const char* logmsg_path);
 int open_table(const char* pathname);
 int db_insert(int tid, int64_t key, char* value);
 int db_delete(int tid, int64_t key);
