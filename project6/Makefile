@@ -1,0 +1,58 @@
+.SUFFIXES: .cpp .o
+
+CC=g++
+
+SRCDIR=src/
+INC=include/
+LIBS=lib/
+
+# SRCS:=$(wildcard src/*.cpp)
+# OBJS:=$(SRCS:.cpp=.o)
+
+# main source file
+TARGET_SRC:=$(SRCDIR)main.cpp
+TARGET_OBJ:=$(SRCDIR)main.o
+
+# Include more files if you write another source file.
+SRCS_FOR_LIB:=$(SRCDIR)bpt.cpp $(SRCDIR)disk_manager.cpp $(SRCDIR)buffer_manager.cpp $(SRCDIR)lock_manager.cpp $(SRCDIR)dbapi.cpp $(SRCDIR)log_manager.cpp
+OBJS_FOR_LIB:=$(SRCS_FOR_LIB:.cpp=.o)
+
+CFLAGS+= -std=c++14 -g -fPIC -I $(INC) -Wall -Wformat=0
+
+TARGET=main
+
+all: $(TARGET)
+
+$(SRCDIR)bpt.o:
+	$(CC) $(CFLAGS) -o $(SRCDIR)bpt.o -c $(SRCDIR)bpt.cpp
+
+$(SRCDIR)disk_manager.o:
+	$(CC) $(CFLAGS) -o $(SRCDIR)disk_manager.o -c $(SRCDIR)disk_manager.cpp
+
+$(SRCDIR)buffer_manager.o:
+	$(CC) $(CFLAGS) -o $(SRCDIR)buffer_manager.o -c $(SRCDIR)buffer_manager.cpp
+
+$(SRCDIR)lock_manager.o:
+	$(CC) $(CFLAGS) -o $(SRCDIR)lock_manager.o -c $(SRCDIR)lock_manager.cpp
+
+$(SRCDIR)dbapi.o:
+	$(CC) $(CFLAGS) -o $(SRCDIR)dbapi.o -c $(SRCDIR)dbapi.cpp
+	
+$(SRCDIR)log_manager.o:
+	$(CC) $(CFLAGS) -o $(SRCDIR)log_manager.o -c $(SRCDIR)log_manager.cpp
+
+$(TARGET_OBJ):
+	$(CC) $(CFLAGS) -o $(TARGET_OBJ) -c $(TARGET_SRC)
+
+$(TARGET): $(OBJS_FOR_LIB) $(TARGET_OBJ)
+	make static_library
+	$(CC) $(CFLAGS) -o $@ $^ -L $(LIBS) -lbpt
+
+clean:
+	rm $(TARGET) $(TARGET_OBJ) $(OBJS_FOR_LIB) $(LIBS)*
+
+library:
+	g++ -shared -Wl,-soname,libbpt.so -o $(LIBS)libbpt.so $(OBJS_FOR_LIB)
+
+static_library:
+	ar cr $(LIBS)libbpt.a $(OBJS_FOR_LIB)
