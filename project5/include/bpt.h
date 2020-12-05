@@ -50,7 +50,6 @@ int cut( int length );
 
 // Insertion.
 
-record_t* make_record(int64_t key, char* value);
 frame_t* make_node( int tid, frame_t* buf_header );
 frame_t* make_leaf( int tid, frame_t* buf_header );
 int get_left_index(frame_t* parent, pagenum_t left_pnum);

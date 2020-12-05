@@ -80,6 +80,7 @@ int db_insert(int tid, int64_t key, char* value){
     	printf("No matching table id!\n");
     	return FAILURE;
     }
+    return FAILURE;
 }
 
 int db_delete(int tid, int64_t key){
@@ -98,6 +99,8 @@ int db_delete(int tid, int64_t key){
     	printf("No matching table id!\n");
     	return FAILURE;
     }
+    
+    return FAILURE;
 }
 
 int db_find(int tid, int64_t key, char* ret_val, int trx_id){
@@ -116,6 +119,8 @@ int db_find(int tid, int64_t key, char* ret_val, int trx_id){
     	printf("No matching table id!\n");
     	return FAILURE;
     }
+    
+    return FAILURE;
 }
 
 int db_update(int table_id, int64_t key, char* values, int trx_id){
@@ -134,6 +139,8 @@ int db_update(int table_id, int64_t key, char* values, int trx_id){
     	printf("No matching table id!\n");
     	return FAILURE;
     }
+    
+    return FAILURE;
 }
 int close_table(int table_id){
     if(table_id<=0){

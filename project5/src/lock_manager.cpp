@@ -40,29 +40,7 @@ int trx_commit(int trx_id){
 
     return trx_id;
 }
-
-//ausba dlm test
-//testing deadlock detection function
-string find_deadlock(trx_t* trx1, trx_t* trx2) {
-
-    trx_t* curr_trx = trx2;
-    lock_t lock;
-    list<lock_t>::iterator it;
-    //for (it = curr_trx->lock_list.begin(); it != curr_trx->lock_list.end(); ++it){
-    //	if(it == trx1->lock_list.begin()) break;
-    //}
-  
-    while (curr_trx->state== "WAITING" && curr_trx != trx1) {
-        //lock = *it;
-        curr_trx = lock.trx;
-    }
-
-    if (curr_trx == trx1) {
-        return "DEADLOCK";
-    } else {
-        return "SAFELOCK";
-    }
-}
+ 
 
 int init_lock_table(void){
     lock_mutex = PTHREAD_MUTEX_INITIALIZER;

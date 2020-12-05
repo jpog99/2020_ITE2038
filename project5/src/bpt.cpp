@@ -217,21 +217,7 @@ int cut( int length ) {
 
 // INSERTION
 //
-///* Creates a new record to hold the value
-// * to which a key refers.
-// */
-record_t* make_record(int64_t key, char* value) {
-    record_t* new_record;
-    if (new_record == NULL) {
-        perror("Record creation.");
-	return NULL;
-    }
-    else {
-        new_record->key = key;
-        strcpy(new_record->value , value);
-    }
-    return new_record;
-}
+
 
 ///* Creates a new general node, which can be adapted
 // * to serve as either a leaf or an internal node.
@@ -415,7 +401,7 @@ pagenum_t insert_into_node_after_splitting(int tid, frame_t* buf_header, pagenum
     int split = cut(MAX_INTERNAL_ORDER);
     old->page.node_page.one_more_page_pnum = temp_pnum[0];
     for (i = 0; i < split - 1; i++) {
-        old->page.node_page.kp_pair[i].pnum = temp_pnum[++i];
+        old->page.node_page.kp_pair[i].pnum = temp_pnum[i+1];
         old->page.node_page.kp_pair[i].key = temp_keys[i];
     }
     old->page.node_page.header.num_keys = split - 1;
@@ -484,12 +470,8 @@ pagenum_t insert_into_parent(int tid, frame_t* buf_header, pagenum_t root_pnum, 
 
     /* Simple case: the new key fits into the node.
      */
-    int flag;
+    
     if (parent->page.node_page.header.num_keys < MAX_INTERNAL_ORDER - 1){
-         flag = insert_into_node(tid, root_pnum, parent, left_index, key, right->pnum);
-         //file_write_page(left_pnum, left);
-         //file_write_page(right_pnum, right);
-         //file_write_page(parent_pnum, &parent);
          return root_pnum;
     }
 
@@ -510,7 +492,6 @@ pagenum_t insert_into_parent(int tid, frame_t* buf_header, pagenum_t root_pnum, 
 pagenum_t insert_into_new_root(int tid, frame_t* buf_header, pagenum_t left_pnum, frame_t* left, int64_t key, pagenum_t right_pnum, frame_t* right) {
 
     frame_t* root = make_node(tid, buf_header);
-    pagenum_t root_pnum = root->pnum;
     root->page.node_page.kp_pair[0].key = key;
     root->page.node_page.one_more_page_pnum = left->pnum;
     root->page.node_page.kp_pair[0].pnum = right->pnum;
@@ -640,6 +621,8 @@ int get_neighbor_index( frame_t* parent, pagenum_t current_pnum ) {
     
     if(parent->page.node_page.one_more_page_pnum == current_pnum) 
         return -1;
+        
+    return 0;
 }
 //
 //
@@ -728,7 +711,6 @@ pagenum_t coalesce_nodes(int tid, frame_t* buf_header, pagenum_t root_pnum, page
 
     int i, j, neighbor_insertion_index, n_end;
     frame_t* tmp;
-    pagenum_t tmp_pnum;
 
     /* Swap neighbor with node if node is on the
      * extreme left and neighbor is to its right.
@@ -908,7 +890,7 @@ pagenum_t delete_entry(int tid, frame_t* buf_header, pagenum_t root_pnum, pagenu
     int neighbor_index;
     int k_prime_index; 
     int64_t k_prime;
-    int capacity,flag;
+    int capacity;
     pagenum_t res;
 
     frame_t* current = buf_read_page(tid, current_pnum, 1);
@@ -916,9 +898,6 @@ pagenum_t delete_entry(int tid, frame_t* buf_header, pagenum_t root_pnum, pagenu
     capacity = current->page.node_page.header.is_leaf ? MAX_LEAF_ORDER : MAX_INTERNAL_ORDER-1;
         
     // Remove key and pointer from node.
-
-    int type = current->page.node_page.header.is_leaf;
-    flag = remove_entry_from_node(key, current, type);
 
     /* Case:  deletion from the root.
      */

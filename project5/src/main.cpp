@@ -60,6 +60,7 @@ int main( int argc, char ** argv ) {
             break;    
         case 'q':
             while (getchar() != (int)'\n');
+            trx_commit(trx_id);
             shutdown_db();
             return EXIT_SUCCESS;
             break;

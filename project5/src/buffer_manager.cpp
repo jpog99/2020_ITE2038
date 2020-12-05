@@ -37,7 +37,8 @@ string buf_add_page(int tid, pagenum_t pnum){
     string frame_idx;
     
     //case: all frame in buffer are in use
-    if(buf_pool.frames.size() == buf_pool.size){
+    int pool_size = buf_pool.frames.size();
+    if(pool_size == buf_pool.size){
     	frame_idx = buf_pool.lru_frame;
     	//find frame index for eviction victim and remove it
     	while (buf_pool.frames[frame_idx].is_pinned)
