@@ -17,6 +17,7 @@ int trx_begin(void){
     pthread_mutex_lock(&trx_mutex);
     //add new trx into trx_list 
     trx_list.push_back(trx);
+    create_log(trx.trx_id, BEGIN);
     return trx.trx_id;
 }
 
@@ -35,10 +36,37 @@ int trx_commit(int trx_id){
     
     //remove trx from trx_list
     trx_list.erase(it);
+    //create log commit
+    create_log(trx_id,COMMIT);
     //unlock current trx mutex
     pthread_mutex_unlock(&trx_mutex);
 
     return trx_id;
+}
+
+int trx_abort(int trx_id){
+    create_log(trx_id, ROLLBACK);
+    
+    //rollback process
+    int log_size = log_buf.size();
+    for(int i = log_size-1 ; i>=0 ; i--){
+    	log_t* log = log_buf[i];
+    	if(log->trx_id == trx_id) {
+    	    if(log->log_type == UPDATE) {
+    	        int idx = ( (log->offset)-8)/128 - 1;
+    	        create_log(trx_id, UPDATE, log->tid, log->pnum, idx, log->new_image, log->old_image);
+    	        string curr_idx = buf_add_page(log->tid, log->pnum);
+    	        buf_pool.frames[curr_idx].is_pinned=1;
+    	        page_t temp_page = buf_pool.frames[curr_idx].page;
+    	        buf_pool.frames[curr_idx].is_dirty = 1;
+    	        memcpy(temp_page.node_page.records[i].value, log->old_image, 120);
+    	        buf_pool.frames[curr_idx].is_pinned = 0;
+    	    }
+    	    else if(log->log_type == BEGIN) break;
+    	}
+    }
+    
+    return trx_commit(trx_id);
 }
  
 

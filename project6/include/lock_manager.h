@@ -10,6 +10,9 @@ int trx_begin(void);
 //commit all changes to disk and end transaction, return parameter if success.
 int trx_commit(int trx_id);
 
+//abort the transaction and rollback
+int trx_abort(int trx_id);
+
 //initialize lock table
 int init_lock_table(void);
 
