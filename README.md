@@ -3,6 +3,7 @@ Database Management System (2020 Fall Semester)
 
 ## Project 1 (Score: 27/40, AVG:33)
 * [SQL Practice](https://github.com/jpog99/2020_ITE2038/tree/master/project1)
+* [Wrong answers](https://github.com/jpog99/2020_ITE2038/blob/master/project1/README.md#questions-with-wrong-answers)
 
 ## Project 2 (Score: 96.66/200, AVG:98.83)
 * [B+ Tree Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project2)
