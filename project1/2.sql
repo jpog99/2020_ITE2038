@@ -1,9 +1,8 @@
-SELECT name
-FROM (SELECT count(type) as cnt,type
-      FROM Pokemon
-      GROUP BY type 
-      ORDER BY count(type) DESC LIMIT 2) AS t1
-      
-INNER JOIN Pokemon p  
-ON t1.type = p.type  
-ORDER BY name    
+select p.name
+from pokemon p,
+
+(select type 
+from pokemon 
+group by type order by count(type) desc limit 4) as q
+
+where p.type = q.type order by name

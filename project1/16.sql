@@ -1,3 +1,3 @@
-SELECT type, count(type)
+SELECT count(*)
 FROM Pokemon 
-WHERE type IN ('water','electric','psychic') GROUP BY type;
+WHERE type IN ('water','electric','psychic');
