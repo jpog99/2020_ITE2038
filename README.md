@@ -19,3 +19,7 @@ Database Management System (2020 Fall Semester)
 ## Project 5
 * [Concurrency Control Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project5)
 * [Wiki](https://github.com/jpog99/2020_ITE2038/tree/master/project5/README.md)
+
+## Project 6
+* [Logging and ARIES Recovery Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project6)
+* [Wiki](https://github.com/jpog99/2020_ITE2038/tree/master/project6/README.md)
