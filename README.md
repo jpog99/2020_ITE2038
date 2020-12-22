@@ -17,10 +17,10 @@ Database Management System (2020 Fall Semester)
 * [Lock Module Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project4)
 * [Wiki](https://github.com/jpog99/2020_ITE2038/blob/master/project4/README.md) 
 
-## Project 5
+## Project 5 (Score: 12.1/100, AVG:16.51)
 * [Concurrency Control Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project5)
 * [Wiki](https://github.com/jpog99/2020_ITE2038/tree/master/project5/README.md)
 
-## Project 6
+## Project 6 (Score: 14.8/100, AVG:10.23)
 * [Logging and ARIES Recovery Implementation](https://github.com/jpog99/2020_ITE2038/tree/master/project6)
 * [Wiki](https://github.com/jpog99/2020_ITE2038/tree/master/project6/README.md)
