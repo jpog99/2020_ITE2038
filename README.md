@@ -33,3 +33,4 @@ Database Management System (2020 Fall Semester)
 | Project 4     | 100/100       | 58.30     |
 | Project 5     | 12.1/100       | 16.51      |
 | Project 6     | 14.8/100       | 10.23     |
+| Final Report    | 75/100       | 35.53     |
